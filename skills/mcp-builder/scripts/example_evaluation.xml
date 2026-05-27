@@ -1,0 +1,33 @@
+<!--
+  Example evaluation file. Replace these QA pairs with questions specific
+  to your MCP server. See reference/evaluation.md for guidelines.
+
+  Requirements for each question:
+    - INDEPENDENT (does not rely on prior questions)
+    - READ-ONLY (no destructive operations)
+    - COMPLEX (multiple tool calls / deep exploration)
+    - VERIFIABLE (single string-comparable answer)
+    - STABLE (answer doesn't change over time)
+-->
+<evaluation>
+   <qa_pair>
+      <question>Find the issue closed in Q1 2024 that had the most comments before being closed. What was the GitHub username of the user who closed it?</question>
+      <answer>octocat</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Among pull requests merged into the main branch during 2023, identify the one with the longest period from open to merge. How many days did it stay open (rounded down)?</question>
+      <answer>147</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Search for projects archived in 2023. Among those, which had the highest fork count at the time of archival? Respond with the repository name only.</question>
+      <answer>legacy-pipeline</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Find the user who has created the most issues across all repositories in the organization between Jan 1 2024 and June 30 2024 inclusive. Provide their login.</question>
+      <answer>alice-dev</answer>
+   </qa_pair>
+   <qa_pair>
+      <question>Locate the release tagged in Q4 2023 whose changelog includes a breaking change related to authentication. What is the release tag (e.g., v2.0.0)?</question>
+      <answer>v3.0.0</answer>
+   </qa_pair>
+</evaluation>
