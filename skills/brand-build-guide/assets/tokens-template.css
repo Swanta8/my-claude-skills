@@ -1,0 +1,97 @@
+/* ============================================================
+   [BRAND_NAME] huisstijl — CSS design tokens (single source of truth)
+   Bron: [BRAND_NAME] styleguide + brand-build-guide template
+   Versie: [YYYY-MM]
+
+   GEBRUIK:
+   - Vervang [BRAND_PREFIX] met een korte unieke prefix (bv. kp, hp, acme)
+   - Vervang elke #PLACEHOLDER met de hex-code uit de intake-checklist
+   - Verwijder optionele blokken die niet van toepassing zijn voor dit merk
+   - Naamprefix voorkomt collisions wanneer twee brand-skills in dezelfde
+     sessie actief zijn
+   ============================================================ */
+
+:root {
+  /* --- Merkkleuren --- */
+  --[BRAND_PREFIX]-primary: #PRIMARY;       /* Primair — headings, labels, links */
+  --[BRAND_PREFIX]-accent: #ACCENT;         /* Accent — beperkt gebruik, bv. CTA */
+
+  /* --- Achtergronden & oppervlakken --- */
+  --[BRAND_PREFIX]-bg: #BG_PAGE;            /* Page background */
+  --[BRAND_PREFIX]-card: #FFFFFF;           /* Card/container achtergrond */
+  --[BRAND_PREFIX]-soft: #SOFT_FILL;        /* Block-header, label-cel, soft fill */
+  --[BRAND_PREFIX]-zebra: #ZEBRA;           /* Zebra-strepen in data-tabellen */
+
+  /* --- Randen --- */
+  --[BRAND_PREFIX]-border: #BORDER;         /* Algemene border */
+  --[BRAND_PREFIX]-border-mail: #BORDER_MAIL; /* Border in e-mail (vaak iets lichter) */
+
+  /* --- Tekstkleuren --- */
+  --[BRAND_PREFIX]-text: #TEXT_BODY;        /* Body tekst */
+  --[BRAND_PREFIX]-text-heading: #TEXT_HEADING; /* Donkere benadrukking */
+  --[BRAND_PREFIX]-text-muted: #TEXT_MUTED; /* Footer, captions, meta-info */
+  --[BRAND_PREFIX]-link: #LINK;             /* Hyperlinks (vaak = primary) */
+  --[BRAND_PREFIX]-link-safe: #LINK_SAFE;   /* WCAG-veilige variant (>=4.5:1 op wit) */
+
+  /* --- Status-uitbreidingen (optioneel — verwijder als merk geen status-kleuren heeft) --- */
+  --[BRAND_PREFIX]-positive: #POSITIVE;
+  --[BRAND_PREFIX]-positive-soft: #POSITIVE_SOFT;
+  --[BRAND_PREFIX]-negative: #NEGATIVE;
+  --[BRAND_PREFIX]-negative-soft: #NEGATIVE_SOFT;
+  --[BRAND_PREFIX]-warn: #WARN;
+  --[BRAND_PREFIX]-warn-soft: #WARN_SOFT;
+
+  /* --- Typography --- */
+  --[BRAND_PREFIX]-font: 'PRIMARY_FONT', Arial, Helvetica, sans-serif;
+  --[BRAND_PREFIX]-font-mail: Arial, 'PRIMARY_FONT', Helvetica, sans-serif; /* Outlook-first */
+
+  /* --- Spacing & radii --- */
+  --[BRAND_PREFIX]-radius-card: 12px;
+  --[BRAND_PREFIX]-radius-inner: 10px;
+  --[BRAND_PREFIX]-radius-pill: 999px;
+  --[BRAND_PREFIX]-radius-chip: 3px;
+
+  /* --- Shadows --- */
+  --[BRAND_PREFIX]-shadow-card: 0 4px 12px rgba(0,0,0,.08);  /* Email */
+  --[BRAND_PREFIX]-shadow-container: 0 6px 18px rgba(0,0,0,.08); /* PDF/HTML */
+
+  /* --- Container breedtes (informatief — gebruik in CSS waar nodig) --- */
+  --[BRAND_PREFIX]-width-email: 680px;
+  --[BRAND_PREFIX]-width-report: 900px;
+}
+
+/* ============================================================
+   Brand-utility classes (optioneel — direct bruikbaar in HTML)
+   Verwijder/aanpassen wat niet van toepassing is.
+   ============================================================ */
+
+.[BRAND_PREFIX]-body {
+  background: var(--[BRAND_PREFIX]-bg);
+  font-family: var(--[BRAND_PREFIX]-font);
+  color: var(--[BRAND_PREFIX]-text);
+  margin: 0;
+  padding: 24px 0;
+}
+
+.[BRAND_PREFIX]-container {
+  max-width: var(--[BRAND_PREFIX]-width-report);
+  margin: 0 auto;
+  background: var(--[BRAND_PREFIX]-card);
+  border-radius: var(--[BRAND_PREFIX]-radius-card);
+  box-shadow: var(--[BRAND_PREFIX]-shadow-container);
+  overflow: hidden;
+}
+
+/* Status chips */
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--[BRAND_PREFIX]-radius-chip);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.chip.positive { background: var(--[BRAND_PREFIX]-positive-soft); color: var(--[BRAND_PREFIX]-positive); }
+.chip.negative { background: var(--[BRAND_PREFIX]-negative-soft); color: var(--[BRAND_PREFIX]-negative); }
+.chip.warn     { background: var(--[BRAND_PREFIX]-warn-soft);     color: var(--[BRAND_PREFIX]-warn); }
+.chip.brand    { background: var(--[BRAND_PREFIX]-soft);          color: var(--[BRAND_PREFIX]-primary); }
+.chip.neutral  { background: #f0f0f0;                              color: var(--[BRAND_PREFIX]-text-muted); }
