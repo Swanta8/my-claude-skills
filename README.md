@@ -11,7 +11,7 @@ Een skill is een setje instructies dat Claude leert hoe hij een specifieke taak 
 | Skill | Wat doet het? |
 |-------|---------------|
 | [`mcp-builder`](./skills/mcp-builder) | Helpt je een MCP-server te bouwen vanuit API-documentatie. Claude stelt eerst een paar vragen, doet onderzoek, schrijft de code, en installeert het voor je. |
-| [`brand-build-guide`](./skills/brand-build-guide) | Bouwt een huisstijl-skill voor een merk. Levert een 12-delige blauwdruk, intake-checklist, token-templates (CSS + JSON) en een sjabloon-SKILL.md zodat je merk-output consistent blijft over rapporten, e-mails en documenten. |
+| [`brand-build-guide`](./skills/brand-build-guide) | Bouwt automatisch een complete, upload-klare **merk-skill** uit je huisstijl-materialen (brand book, logo's, kleuren, fonts, tone of voice). Leest de bronnen, extraheert design tokens + tone of voice, en genereert een `SKILL.md` + references + `design-tokens.json` + HTML-rapport- en e-mail-scaffolds. <br><br> [![Download brand-build-guide.zip](https://img.shields.io/badge/⬇%20Download-.zip-2ea44f?style=flat-square&logo=github&logoColor=white)](https://github.com/Swanta8/my-claude-skills/releases/latest/download/brand-build-guide.zip) [📖 README](./skills/brand-build-guide#readme) |
 
 > **Wat is een MCP-server?** Een MCP-server is een brug tussen Claude en een andere dienst (zoals Stripe, GitHub, of een eigen API). Daarmee kan Claude bijvoorbeeld direct betalingen ophalen of issues aanmaken.
 

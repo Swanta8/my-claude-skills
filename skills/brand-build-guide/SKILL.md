@@ -1,152 +1,108 @@
 ---
 name: brand-build-guide
-description: Bouw, refactor of review een huisstijl-skill voor een merk (zoals keypro-brand of hooft-petiet-brand). Trigger op "ik wil een brand skill maken voor X", "huisstijl skill", "merk-skill opzetten", "nieuwe brand skill", "blueprint voor een brand skill", "wat moet er in mijn brand skill", "review/fix mijn brand skill". Gebruik ALTIJD wanneer de gebruiker een brand-skill begint of verbetert, ook zonder expliciete term — "ik wil een skill die mijn huisstijl toepast op rapporten en e-mails" valt hieronder. Levert een 12-delige blauwdruk voor SKILL.md, een intake-checklist (design tokens, voice-rules, footer-data, sister-mappings), token-templates (CSS + JSON), een sjabloon-SKILL.md en description-engineering tips zodat de uiteindelijke brand-skill betrouwbaar triggert. Niet gebruiken voor losse documenten of templates zonder skill-context (dan keypro-brand, hooft-petiet-brand of skill-creator).
+description: Bouw automatisch een complete, upload-klare organizational brand skill uit aangeleverde huisstijl-materialen — huisstijlboeken/brand books (PDF), logo's, kleur- en font-specificaties, tone-of-voice documenten, voorbeeldteksten en voorbeeld-templates, of een website. De skill leest die bronnen, extraheert design tokens (kleuren met rollen, typografie, logo, spacing, footer) en tone of voice, en genereert een nette merk-skill (SKILL.md + references + design-tokens.json + HTML-rapport- en e-mail-scaffolds) die direct als .zip/.skill te uploaden is naar organizational skills. Gebruik bij vragen als "maak een brand skill", "bouw een huisstijl-skill", "turn our brand book into a skill", "genereer een merk-skill uit deze documenten", "brand-build-guide", of wanneer iemand huisstijlboeken/voorbeeldtemplates uploadt om er een herbruikbare merk-skill van te maken.
 ---
 
-# Brand Skill Build Guide
+# Brand Build Guide — generate a perfect organizational brand skill
 
-Eén bron voor het bouwen van een nieuwe brand-skill (huisstijl-skill) volgens hetzelfde patroon als `keypro-brand` en `hooft-petiet-brand`. Werkt voor élk merk dat consistente output nodig heeft over meerdere formaten (rapporten, e-mail, Word, PDF, presentaties).
+**EN:** This is a meta-skill. It turns uploaded brand materials (brand books, logos, color/font specs, tone-of-voice docs, example texts and templates, or a website) into a complete, upload-ready **organizational brand skill** — a folder with a `SKILL.md`, reference files, a `design-tokens.json`, and ready-to-use HTML-report and email scaffolds. The output mirrors a proven structure (colors, typography, tone of voice, HTML reports, email).
 
-## Wanneer deze skill gebruiken
+**NL:** Dit is een meta-skill. Hij maakt van aangeleverde huisstijl-materialen automatisch een volledige, upload-klare **merk-skill**. Output-dekking: design tokens (kleuren, fonts, spacing), tone of voice, HTML-rapport en e-mail. (Word, PowerPoint en e-mailhandtekening zijn optionele uitbreidingen — zie §6.)
 
-Trigger bij élke vraag die neerkomt op "help me een brand-skill bouwen":
+## 0. What this skill produces / Wat dit oplevert
 
-- "Ik wil een huisstijl-skill voor [merk]"
-- "Maak een brand skill voor [merk X]"
-- "Review de structuur van mijn brand skill"
-- "Mijn brand skill triggert niet goed — kun je het fixen?"
-- "Wat moet er allemaal in een brand skill?"
-- "Kun je een blueprint geven voor een merk-skill?"
-
-Ook gebruiken bij refactor van een bestaande brand-skill, of wanneer iemand vraagt om twee brand-skills te vergelijken/harmoniseren.
-
-**Niet gebruiken** voor: één losse template (dan `keypro-brand` of `hooft-petiet-brand`), of voor algemene skill-creatie zonder brand-context (dan `skill-creator`).
-
-## De 12 onderdelen van een brand-skill
-
-Elke goed werkende brand-skill bevat deze 12 onderdelen in deze volgorde. Mist er één, dan triggert de skill slecht of produceert hij onbetrouwbare output.
-
-| # | Onderdeel | Doel |
-|---|---|---|
-| 1 | **YAML frontmatter** | Triggerwoorden, contexts, wat de skill levert |
-| 2 | **Wanneer gebruiken** | Expliciete signaalwoorden + "use even when not explicit" |
-| 3 | **Brand identity at a glance** | Persoonlijkheid + voice + visueel ritme in 1 paragraaf |
-| 4 | **Design tokens (source of truth)** | Kleuren, typo, spacing, radii, shadows — concreet |
-| 5 | **Copy-paste CSS-block** | `:root` met variabelen, direct kopieerbaar |
-| 6 | **Anatomy / skeleton** | De vaste opbouw van een deliverable (5–7 elementen) |
-| 7 | **Routing tabel** | "Wil je X → lees Y" verwijst naar format-references |
-| 8 | **Output contract** | Wat moet er bij elke deliverable: framing + artifact + checklist |
-| 9 | **Hard rules** | 8–12 niet-onderhandelbare regels |
-| 10 | **Brand compliance checklist** | 5–8 bullets ter controle voor verzending |
-| 11 | **Sister-entity mapping** | Hoe omgaan met zustermerken en rebrand-acties |
-| 12 | **Bestandsoverzicht** | Wat zit waar (transparantie voor onderhoud) |
-
-Een sjabloon-SKILL.md met alle 12 secties als invul-blokken staat in `assets/skill-md-template.md`.
-
-## Workflow voor het bouwen van een nieuwe brand-skill
-
-Volg deze vijf stappen in volgorde. Sla geen stap over — vooral stap 1 niet, want zonder volledige intake bouw je een skill die later moet worden teruggedraaid.
-
-### Stap 1 — Intake
-
-Lees `references/intake-checklist.md` en loop hem hardop door met de gebruiker. Verzamel élk veld voor je begint te schrijven. Onbekende waarden expliciet markeren als `[TE-VERIFIEREN]` — niet gokken. Je hebt minimaal nodig: logo URL, primaire kleur, accentkleur(en), font stack, voice in 1 paragraaf, footer-contactblok.
-
-### Stap 2 — Tokens
-
-Vul `assets/tokens-template.css` en `assets/tokens-template.json` in op basis van de intake. Beide formats horen erbij: CSS voor HTML-output, JSON als machine-leesbare spiegel voor scripts en validatie. Naamprefix per merk (bv. `--kp-`, `--hp-`) om collisions te voorkomen wanneer twee brand-skills in dezelfde sessie actief zijn.
-
-### Stap 3 — Format references
-
-Bepaal welke outputformaten de skill moet ondersteunen. Maak per format één bestand in `references/`. Veelvoorkomende set:
-
-- `references/report-html.md` — HTML-rapport (900px container, shadow, Roboto)
-- `references/email.md` — Outlook-veilige e-mail (680px, table-based, inline CSS)
-- `references/word-docx.md` — `python-docx` patronen
-- `references/powerpoint.md` — `python-pptx` of tokens-based deck
-- `references/data-components.md` — tabellen, KPI-cards, status-chips (bij data-output)
-- `references/voice-and-tone.md` — schrijfregels, u/je, groeten, verboden frases
-- `references/email-signature.md` — handtekening per medewerker
-
-Niet alle formaten zijn altijd nodig. Begin met de twee waar de gebruiker daadwerkelijk output in produceert. Voeg toe wanneer een nieuw format opduikt — beter een kleine, scherpe skill dan een grote met dode references.
-
-Kopieer een werkend HTML/template van een bestaande skill (`keypro-brand/assets/template-*.html` of `hooft-petiet-brand/references/html-reports.md`) als startpunt. Bouw nooit een format-reference from-scratch wanneer er een vergelijkbare bestaat.
-
-### Stap 4 — SKILL.md schrijven
-
-Start vanuit `assets/skill-md-template.md`. Vul de 12 secties in. Houd het onder 500 regels — duik dieper in references als je over die limiet gaat.
-
-Speciale aandacht voor de **frontmatter description**: zie sectie "Description engineering" hieronder.
-
-### Stap 5 — Sanity check
-
-Loop deze vijf vragen langs voordat de skill in gebruik gaat:
-
-1. Triggert de description op realistische zinnen ("maak ons rapport", "in onze huisstijl", impliciete brand-vermeldingen)? Test 3 prompts mentaal.
-2. Levert sectie 4 (design tokens) een eenduidige waarde per token — geen "ongeveer dit groen, of misschien dat"?
-3. Is het logo een live HTTPS-URL, geen lokale path, geen verouderde CDN?
-4. Staat in de compliance-checklist élk onveranderlijk merkkenmerk dat in "Hard rules" wordt genoemd?
-5. Lost de skill een echt probleem op? Zo nee: verbeter de tokens of voeg een format toe waar de gebruiker daadwerkelijk in werkt.
-
-## Wat moet de gebruiker aanleveren
-
-Niets bouwen zonder deze input. Volledige checklist in `references/intake-checklist.md`. Korte versie:
-
-- **Identiteit**: merknaam, varianten, parent-/zusterentiteiten
-- **Kleuren**: primair, accent, status (positief/negatief/warn), tekst, achtergrond, border, soft-fill, zebra
-- **Typografie**: font stack (web), font fallback (Outlook), font fallback (Word/PPT), type-schaal
-- **Logo**: live HTTPS-URL + max widths per context + alt text
-- **Spacing/radii/shadows**: outer, card, table cell padding; radius card/inner/pill; shadow email/PDF
-- **Footer**: contactregels, met regel-voor-regel weglaten-regels
-- **Voice**: persoonlijkheid in 1 paragraaf, u/je-conventies, do/don't, groeten/afsluitingen
-- **Formaten**: welke outputs moeten ondersteund worden
-- **Lokalisatie**: datum-, getal-, valuta-format, taal
-- **Hard rules**: 8–12 niet-onderhandelbare regels
-- **Sister mapping**: per token, als rebrand-functie nodig is
-
-## Description engineering (cruciaal voor triggering)
-
-Brand-skills ondertriggeren standaard, omdat gebruikers zelden expliciet "huisstijl" zeggen. Volg deze vier principes voor de frontmatter description:
-
-1. **Noem alle synoniemen**: "huisstijl", "ons rapport", "onze mail", "merkkleuren", "brand colors", "company template", "in onze branding", plus alle merknaam-varianten (volledig, afkorting, domein).
-2. **Noem alle outputformaten** waar de skill voor werkt — rapporten, e-mails, dashboards, MoreApp PDF, Word, etc.
-3. **Voeg een expliciete trigger-instructie toe** zoals: "Use whenever output will represent the [merk] brand — even if the user does not say 'huisstijl'."
-4. **Eindig met wat de skill concreet levert** — tokens, templates, checklist — zodat het model snapt wat de uitkomst is.
-
-Voorbeeld-zin uit `hooft-petiet-brand`: *"Use whenever output will represent the Hooft & Petiet brand — even if the user does not say 'huisstijl' — including reports, customer emails, memos, dashboards, MoreApp PDF/email HTML, and any 'make this look like our brand' request."*
-
-## Universele hard rules (voor élke brand-skill)
-
-Deze regels horen in iedere brand-skill thuis, ongeacht het merk:
-
-1. **Logo is een live HTTPS-URL**, nooit een lokale path, nooit een placeholder.
-2. **Eén bron van waarheid voor tokens** — CSS-variabelen in `:root` met JSON-spiegel. Improviseer nooit hex-codes elders in de skill.
-3. **Container-breedtes vaststellen per format** (typisch 900px PDF/HTML, 680px e-mail).
-4. **Font stack expliciet per context**: web (Roboto eerst), email (Arial eerst voor Outlook), Word/PPT (system-safe fallback).
-5. **Datum/getal-format vastleggen** op één plek — voor NL: decimaalkomma, datum lang "maandag 11 mei 2026".
-6. **Footer is altijd compleet of regel-voor-regel weggelaten** — nooit een lege rij renderen.
-7. **Voice is bindend**: geen emoji's, geen marketing-superlatieven, geen uitroeptekens (tenzij quote).
-8. **WCAG-contrast adresseren** wanneer de primaire kleur op wit onder 4.5:1 zit — geef een donkere link-variant.
-9. **Geen flexbox/grid in e-mail**: Outlook breekt. Tabel-based layout, inline CSS, MSO conditional comments voor knoppen.
-10. **Sister-entities expliciet maken**: weet welk merk overneemt, hoe gerebrand wordt, en wanneer naar een andere skill verwezen wordt.
-
-## Bestandsoverzicht
+A generated brand skill named like `acme-brand/` with this exact layout:
 
 ```
-brand-build-guide/
-├── SKILL.md                          # Dit bestand
+<brand>-brand/
+├── SKILL.md                      # tokens table + CSS-var block + hard rules + checklist (bilingual)
 ├── references/
-│   └── intake-checklist.md           # Welke info verzamelen voor je begint
+│   ├── design-tokens.md          # the full token reference (colors, fonts, spacing, logo, footer)
+│   ├── voice-and-tone.md         # voice, formality, do/don't, phrasings, examples
+│   ├── html-reports.md           # report/dashboard scaffold + chart palette
+│   └── email.md                  # branded email/newsletter scaffold (inline CSS, Outlook-safe)
 └── assets/
-    ├── skill-md-template.md          # Lege SKILL.md met de 12 secties
-    ├── tokens-template.css           # Lege CSS-variabelen
-    └── tokens-template.json          # Lege JSON design-tokens-spiegel
+    ├── design-tokens.json        # machine-readable single source of truth
+    ├── report-scaffold.html      # working HTML report, CSS variables filled
+    └── email-scaffold.html       # working email, inline values filled
 ```
 
-## Referentie-skills (good examples)
+Deliver it as a `.zip` (or `.skill`) with the brand folder at the top level, ready to upload under organizational skills.
 
-Twee bestaande, werkende brand-skills die als good-example dienen:
+## 1. Workflow — always follow these five steps
 
-- `keypro-brand/` — compact, references-heavy, includes Python helper script
-- `hooft-petiet-brand/` — uitgebreid in SKILL.md, MoreApp-coverage, JSON tokens
+1. **Intake** — gather and confirm the brand materials and basics.
+2. **Extraction** — read the materials and pull out tokens + voice.
+3. **Generation** — build the brand skill folder from the blueprint.
+4. **Packaging** — validate and zip into an upload-ready file.
+5. **Delivery** — present the zip + upload steps + the QA report.
 
-Kopieer geen tekst letterlijk over — die zijn merk-specifiek — maar gebruik ze als structurele referentie en als bron van werkende HTML/CSS-patronen.
+Do not skip the intake or the validation. A wrong color or an over-long description means the skill is either off-brand or rejected on upload.
+
+## 2. Step 1 — Intake
+
+First, check what the user already gave you (uploaded files in the conversation, a website URL, pasted text). Then use **`AskUserQuestion`** to fill the gaps. Ask only what you cannot already infer.
+
+Collect:
+- **Brand name** and any parent/sister entities (for the skill name, e.g. `acme-brand`, and the footer).
+- **Materials available** (multi-select): brand book / style guide (PDF), logo files or URL, color list, font names, tone-of-voice document, example texts, example templates (email/report/Word), website URL.
+- **Coverage** — default: design tokens, tone of voice, HTML report, email. Confirm or extend.
+- **Language** of the generated skill — default bilingual (English core + brand-language triggers/examples).
+- **Logo hosting** — a public URL is strongly preferred (email/PDF need an external `src`). If only a file is provided, note it must be hosted and use a `{{LOGO_URL}}` placeholder.
+
+If a brand book PDF is uploaded, you can extract its text with `scripts/extract_brand_assets.py` (optional helper) or read it directly. Then read `references/intake-and-extraction.md` for exactly what to pull out and how.
+
+## 3. Step 2 — Extraction
+
+Read **`references/intake-and-extraction.md`**. Extract and write down, before generating:
+
+- **Colors with roles** — not just hex values, but what each is *for*: primary/brand, accent, body text, secondary text, background, card, border, soft fill, zebra, link, plus status tints (positive/warning/critical). Mapping color → role is the most important and most error-prone step.
+- **Typography** — primary font stack + fallbacks, weights, size scale.
+- **Logo** — public URL, render sizes, alt text.
+- **Spacing & shape** — padding rhythm, border radius, shadows.
+- **Footer / contact block** — company, address, phone, website, and (for invoices) IBAN/VAT/CoC as placeholders if unknown.
+- **Voice & tone** — formality, sentence style, do/don't list, greetings/sign-offs, number/date format.
+
+Fill `assets/design-tokens.json` against `assets/design-tokens.schema.json`. This JSON is the single source of truth the generated skill is built from.
+
+When a value is genuinely unknown, use a clearly marked placeholder (e.g. `<vul IBAN in>` / `{{LOGO_URL}}`) — never invent brand values.
+
+## 4. Step 3 — Generation
+
+Read **`references/output-blueprint.md`** (the full bilingual `SKILL.md` template and the reference set to generate) and **`references/scaffolds.md`** (the brand-neutral HTML report + email + voice templates with `{{TOKEN}}` placeholders). Then:
+
+1. Create the `<brand>-brand/` folder.
+2. Write `SKILL.md` from the blueprint, filling every `{{PLACEHOLDER}}` from the tokens.
+3. Write the four reference files (`design-tokens.md`, `voice-and-tone.md`, `html-reports.md`, `email.md`).
+4. Write the three assets (`design-tokens.json`, `report-scaffold.html`, `email-scaffold.html`).
+5. Leave **no** unfilled `{{PLACEHOLDER}}` except intentional `<vul ... in>` data placeholders.
+
+Match colors to roles deliberately (see the blueprint's mapping rules). A brand's "primary" is whatever it uses for titles/links; its "accent" is the highlight color used sparingly — never swap these.
+
+## 5. Step 4 & 5 — Packaging, validation, delivery
+
+Read **`references/packaging-and-upload.md`**. Then:
+
+1. Run `scripts/validate_brand_skill.py <brand>-brand/` — checks single `SKILL.md`, valid frontmatter, **description ≤ 1024 characters** (hard upload limit), token completeness, and no leftover `{{PLACEHOLDER}}`.
+2. Fix anything it flags. The description limit is a real upload-blocker — keep it under 1024.
+3. Run `scripts/package_skill.py <brand>-brand/ <output-dir>` to produce `<brand>-brand.zip` with the folder at the top level.
+4. Present the zip and the upload steps (organizational skills → Upload skill → drag the zip).
+5. Print the QA report from `references/quality-checklist.md`.
+
+## 6. Notes & deliberate scope
+
+- **Default coverage**: tokens, voice, HTML report, email. To add **Word**, **PowerPoint**, or an **email signature** reference, follow the same pattern (one reference file + the brand tokens) — see the blueprint's "optional add-ons".
+- **Brand vs. document-templates**: this skill builds the *brand/house-style* skill. Platform document templates (e.g. Current RMS / MoreApp) are a separate skill — keep them out of the brand skill, and only mention the split in the generated skill's routing.
+- **Never invent brand values.** Missing color/font/logo → ask, or use a marked placeholder.
+- **One SKILL.md per skill.** Supporting docs go in `references/` as non-`SKILL.md` files (the upload API rejects multiple `SKILL.md`).
+
+## 7. Reference map
+
+| Read when | File |
+|---|---|
+| Gathering materials + extracting tokens/voice | `references/intake-and-extraction.md` |
+| Building the generated skill (full SKILL.md template + reference set) | `references/output-blueprint.md` |
+| Filling the HTML report / email / voice templates | `references/scaffolds.md` |
+| Zipping, the 1024-char limit, upload steps | `references/packaging-and-upload.md` |
+| Final QA before delivery | `references/quality-checklist.md` |
+| Token shape / a worked example | `assets/design-tokens.schema.json`, `assets/example-design-tokens.json` |

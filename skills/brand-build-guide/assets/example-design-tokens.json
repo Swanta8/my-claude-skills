@@ -1,0 +1,68 @@
+{
+  "_comment": "Worked example based on the Hooft & Petiet brand. Use as a model for shape and how to assign color ROLES. Replace every value with the target brand's own extracted values.",
+  "brand_name": "Hooft & Petiet",
+  "brand_slug": "hooft-petiet",
+  "brand_aliases": ["H&P", "hooftenpetiet"],
+  "parent_group": "Reshare Living Group",
+  "sister_entities": ["KeyPro"],
+  "locale": "nl-NL",
+  "language": "bilingual",
+  "colors": {
+    "primary": "#1E2883",
+    "primary_dark": "#161E63",
+    "accent": "#CBD300",
+    "text_primary": "#3C3436",
+    "text_secondary": "#5A5355",
+    "heading": "#2F2A2B",
+    "bg": "#f7f7f2",
+    "card": "#ffffff",
+    "border": "#dfdfd4",
+    "soft": "#eef1c9",
+    "zebra": "#fafaf7",
+    "link": "#1E2883",
+    "status_positive_text": "#5a7a2a",
+    "status_positive_bg": "#eef5d0",
+    "status_warning_text": "#8a6a1a",
+    "status_warning_bg": "#f5ecd0",
+    "status_critical_text": "#8a2a2a",
+    "status_critical_bg": "#f5d8d8"
+  },
+  "typography": {
+    "primary_font_stack": "Roboto, Arial, Helvetica, sans-serif",
+    "email_font_stack": "Arial, Roboto, Helvetica, sans-serif",
+    "fallback_word": "Calibri",
+    "weights": { "title": 800, "label": 700, "body": 400 },
+    "sizes": { "title_h1": "1.45rem", "block_title": "1.05rem", "body": "14px", "caption": "11px", "footer": "13px" }
+  },
+  "radius": { "card": "12px", "inner": "10px", "pill": "999px" },
+  "accent_bar_height": "6px",
+  "shadow": { "card": "0 4px 12px rgba(0,0,0,.08)", "report": "0 6px 18px rgba(0,0,0,.08)" },
+  "logo": {
+    "url": "https://assets.reshareliving.nl/HP_logo_02_2026_NBG.png",
+    "alt": "Hooft & Petiet logo",
+    "max_width_email_footer": "160px",
+    "max_width_report_footer": "140px"
+  },
+  "footer": {
+    "company": "Hooft & Petiet",
+    "address": "Reactorweg 291 B, 3542 AD Utrecht",
+    "phone": "085 273 4872",
+    "website_href": "https://hooftenpetiet.nl/",
+    "website_display": "hooftenpetiet.nl",
+    "email": "info@hooftenpetiet.nl"
+  },
+  "voice": {
+    "personality": "Calm, professional, no-nonsense. As orderly as a well-finished property. Confident but not loud, warm but not casual.",
+    "oneliner": "Clear Dutch, short sentences, active voice, no marketing fluff.",
+    "formality_default": "formal 'u' for customers, 'je' internal",
+    "do": ["Short sentences (12-18 words)", "Active voice", "Concrete nouns", "Plain Dutch"],
+    "dont": ["Run-on sentences", "Marketing superlatives", "Exclamation marks", "Emoji unless requested"],
+    "greetings_formal": ["Geachte heer/mevrouw [achternaam],"],
+    "signoffs_formal": ["Met vriendelijke groet,"],
+    "vocab_swaps": [
+      { "instead_of": "Hierbij sturen wij u...", "use": "In de bijlage vindt u..." },
+      { "instead_of": "Indien", "use": "Als" }
+    ]
+  },
+  "coverage": ["design-tokens", "voice-and-tone", "html-reports", "email"]
+}

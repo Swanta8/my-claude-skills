@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand design tokens",
+  "description": "Single source of truth for a generated brand skill. Fill from extracted brand materials; do not invent values.",
+  "type": "object",
+  "required": ["brand_name", "brand_slug", "colors", "typography", "logo", "footer", "voice"],
+  "properties": {
+    "brand_name": { "type": "string", "description": "Display name, e.g. 'Acme Living'" },
+    "brand_slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "lowercase-hyphenated, used for skill name '<slug>-brand'" },
+    "brand_aliases": { "type": "array", "items": { "type": "string" }, "description": "Other names/abbreviations that should trigger the skill" },
+    "parent_group": { "type": ["string", "null"] },
+    "sister_entities": { "type": "array", "items": { "type": "string" } },
+    "locale": { "type": "string", "description": "e.g. 'nl-NL' — drives number/date/currency format", "default": "nl-NL" },
+    "language": { "type": "string", "description": "Skill instruction language: 'en', 'nl', or 'bilingual'", "default": "bilingual" },
+    "colors": {
+      "type": "object",
+      "description": "Every color keyed by ROLE, not just value.",
+      "required": ["primary", "text_primary", "bg", "card", "border", "soft", "link"],
+      "properties": {
+        "primary": { "type": "string", "description": "Titles, labels, links, buttons" },
+        "primary_dark": { "type": "string", "description": "Optional darker variant for hover" },
+        "accent": { "type": "string", "description": "Accent bar / highlights — not body text. May equal primary if the brand has one color." },
+        "text_primary": { "type": "string" },
+        "text_secondary": { "type": "string" },
+        "heading": { "type": "string" },
+        "bg": { "type": "string" },
+        "card": { "type": "string", "default": "#ffffff" },
+        "border": { "type": "string" },
+        "soft": { "type": "string", "description": "Table headers, label cells" },
+        "zebra": { "type": "string" },
+        "link": { "type": "string" },
+        "status_positive_text": { "type": "string" },
+        "status_positive_bg": { "type": "string" },
+        "status_warning_text": { "type": "string" },
+        "status_warning_bg": { "type": "string" },
+        "status_critical_text": { "type": "string" },
+        "status_critical_bg": { "type": "string" }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["primary_font_stack"],
+      "properties": {
+        "primary_font_stack": { "type": "string", "description": "e.g. 'Roboto, Arial, Helvetica, sans-serif'" },
+        "email_font_stack": { "type": "string", "description": "Outlook-safe ordering (system font first if brand font is a web font)" },
+        "fallback_word": { "type": "string", "description": "Safe substitute for Word, e.g. Calibri" },
+        "weights": { "type": "object" },
+        "sizes": { "type": "object" }
+      }
+    },
+    "spacing": { "type": "object" },
+    "radius": {
+      "type": "object",
+      "properties": {
+        "card": { "type": "string", "default": "12px" },
+        "inner": { "type": "string", "default": "10px" },
+        "pill": { "type": "string", "default": "999px" }
+      }
+    },
+    "accent_bar_height": { "type": "string", "default": "6px" },
+    "shadow": { "type": "object" },
+    "logo": {
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "url": { "type": "string", "description": "Public URL; use {{LOGO_URL}} if not yet hosted" },
+        "alt": { "type": "string" },
+        "max_width_email_footer": { "type": "string", "default": "160px" },
+        "max_width_report_footer": { "type": "string", "default": "140px" }
+      }
+    },
+    "footer": {
+      "type": "object",
+      "required": ["company"],
+      "properties": {
+        "company": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "website_href": { "type": "string" },
+        "website_display": { "type": "string" },
+        "email": { "type": "string" },
+        "iban": { "type": "string", "description": "Use '<vul IBAN in>' if unknown" },
+        "vat": { "type": "string" },
+        "coc": { "type": "string" }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "properties": {
+        "personality": { "type": "string" },
+        "oneliner": { "type": "string" },
+        "formality_default": { "type": "string", "description": "e.g. formal 'u' / informal 'je'" },
+        "do": { "type": "array", "items": { "type": "string" } },
+        "dont": { "type": "array", "items": { "type": "string" } },
+        "greetings_formal": { "type": "array", "items": { "type": "string" } },
+        "signoffs_formal": { "type": "array", "items": { "type": "string" } },
+        "vocab_swaps": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "description": "Which references to generate.",
+      "items": { "type": "string", "enum": ["design-tokens", "voice-and-tone", "html-reports", "email", "word-docs", "powerpoint", "email-signature"] },
+      "default": ["design-tokens", "voice-and-tone", "html-reports", "email"]
+    }
+  }
+}
